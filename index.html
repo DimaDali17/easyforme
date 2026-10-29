@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="ru" data-season="winter">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EasyForm</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="EasyForm — комфорт в любую погоду. Термобельё, термомайки, леггинсы с начёсом, тёплые носки и базовое бельё. Покупка на Wildberries и Ozon.">
+<meta name="theme-color" content="#221611">
+<meta property="og:type" content="website">
+<meta property="og:title" content="EasyForm — комфорт в любую погоду">
+<meta property="og:description" content="Термобельё, леггинсы с начёсом, тёплые носки и базовое бельё EasyForm. Покупка на Wildberries и Ozon.">
+<meta property="og:image" content="https://easyforme.ru/assets/img/og.jpg">
+<meta property="og:url" content="https://easyforme.ru/">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="assets/img/icon-192.png">
+<link rel="preload" href="assets/fonts/unbounded-cyrillic-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* Layout: poster-like hero (giant season word + turning 3D clay EF logo over live weather), then a weather slider, bento collections, lookbook strip, marketplace links. Season (winter/summer) swaps the whole palette. */
+@font-face{font-family:"Unbounded";font-weight:500;font-display:swap;src:url(assets/fonts/unbounded-cyrillic-500-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Unbounded";font-weight:500;font-display:swap;src:url(assets/fonts/unbounded-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}
+@font-face{font-family:"Unbounded";font-weight:800;font-display:swap;src:url(assets/fonts/unbounded-cyrillic-800-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Unbounded";font-weight:800;font-display:swap;src:url(assets/fonts/unbounded-latin-800-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}
+@font-face{font-family:"Comfortaa";font-weight:500;font-display:swap;src:url(assets/fonts/comfortaa-cyrillic-500-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Comfortaa";font-weight:500;font-display:swap;src:url(assets/fonts/comfortaa-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}
+@font-face{font-family:"Comfortaa";font-weight:700;font-display:swap;src:url(assets/fonts/comfortaa-cyrillic-700-normal.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Comfortaa";font-weight:700;font-display:swap;src:url(assets/fonts/comfortaa-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}
+
+:root{
+  --milk:#F7EFE7; --nude:#E6CDBD; --sand:#CFA78F; --cocoa:#2A1B15;
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --body:"Comfortaa","Trebuchet MS",system-ui,sans-serif;
+  /* winter is the default season */
+  --bg:#221611; --bg2:#30211A; --fg:#F7EFE7; --muted:#CBB4A5; --card:#2D1E17; --line:rgba(247,239,231,.13);
+  --accent:#EFA07A; --on-accent:#2A1B15; --glow:rgba(239,150,105,.55); --chip:#3A2920;
+  --cold:#9FB6CA; --hot:#E98455;
+  --r-lg:34px; --r-md:22px;
+  color-scheme:dark;
+}
+:root[data-season="summer"]{
+  --bg:#F4E5D8; --bg2:#EBD2C0; --fg:#2A1B15; --muted:#7B6153; --card:#FBF5EF; --line:rgba(42,27,21,.12);
+  --accent:#D8754A; --on-accent:#FFF7F0; --glow:rgba(255,206,150,.85); --chip:#FFFFFF;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55;transition:background-color .8s ease,color .8s ease;overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1320px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.95;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.eyebrow{font-family:var(--body);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:16px 26px;border-radius:999px;font-family:var(--display);font-weight:500;font-size:14px;letter-spacing:.02em;text-decoration:none;border:1.5px solid var(--fg);transition:transform .25s ease,background-color .3s,color .3s}
+.btn:hover{transform:translateY(-2px)}
+.btn--fill{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.btn svg{width:18px;height:18px}
+
+/* ---------- header ---------- */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:22px;position:relative;z-index:3}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{width:42px;height:auto;filter:drop-shadow(0 1px 2px rgba(42,27,21,.45))}
+.brand b{font-family:var(--body);font-weight:700;font-size:22px;letter-spacing:.01em}
+.nav{display:flex;gap:26px;font-weight:700;font-size:14px}
+.nav a{text-decoration:none;opacity:.8}
+.nav a:hover{opacity:1}
+.season{display:inline-flex;background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:4px;gap:2px}
+.season button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:999px;font-weight:700;font-size:14px;color:var(--muted);transition:background-color .3s,color .3s}
+.season button svg{width:16px;height:16px}
+.season button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.season button:focus-visible{outline:2px solid var(--accent)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;isolation:isolate}
+#sky{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:24px;padding-block:24px 72px;min-height:min(760px,calc(100vh - 90px))}
+.hero-copy{min-width:0;display:flex;flex-direction:column;gap:26px}
+.kicker{font-family:var(--display);font-weight:500;font-size:clamp(18px,2.2vw,30px);letter-spacing:-.01em;line-height:1.1;margin-bottom:-20px}
+.giant{font-size:clamp(40px,7.2vw,108px);color:var(--accent);transition:color .8s}
+.giant .w{display:inline-block}
+.lead{max-width:30ch;font-size:clamp(17px,1.6vw,21px);color:var(--fg);margin:0}
+.lead b{font-weight:700}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+
+.stage{position:relative;display:grid;place-items:center;aspect-ratio:1/1;max-width:100%}
+.halo{position:absolute;inset:6%;border-radius:50%;background:radial-gradient(closest-side,var(--glow),transparent 72%);filter:blur(10px);animation:breathe 5s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(.92);opacity:.75}50%{transform:scale(1.06);opacity:1}}
+.logo3d{position:relative;width:min(92%,520px);aspect-ratio:1/1;animation:hover 6s ease-in-out infinite}
+.logo3d canvas,.logo3d img{position:absolute;inset:0;width:100%;height:100%;display:block}
+.logo3d img{object-fit:contain;padding:3%}
+.logo3d.gl img{display:none}
+@keyframes hover{0%,100%{translate:0 0}50%{translate:0 -14px}}
+.sticker{position:absolute;right:2%;top:8%;width:clamp(96px,11vw,132px);aspect-ratio:1;border-radius:50%;background:var(--fg);color:var(--bg);display:grid;place-items:center;text-align:center;font-family:var(--display);font-weight:800;line-height:1;transform:rotate(12deg);transition:background-color .8s,color .8s;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.sticker span{font-size:clamp(24px,2.8vw,34px);display:block}
+.sticker small{font-family:var(--body);font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-top:6px}
+
+/* ---------- marquee ---------- */
+.ticker{background:var(--accent);color:var(--on-accent);overflow:hidden;transition:background-color .8s,color .8s}
+.ticker-track{display:flex;width:max-content;animation:run 38s linear infinite;padding-block:18px}
+.ticker-track span{font-family:var(--display);font-weight:800;font-size:clamp(18px,2.4vw,28px);letter-spacing:-.01em;white-space:nowrap;display:inline-flex;align-items:center;gap:28px;padding-right:28px}
+.ticker-track i{display:inline-block;width:.62em;height:.62em;border-radius:46% 54% 60% 40%/50% 40% 60% 50%;background:currentColor;opacity:.85}
+@keyframes run{to{transform:translateX(-50%)}}
+
+section{padding-block:clamp(64px,9vw,120px)}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.sec-head h2{font-size:clamp(34px,5.4vw,76px)}
+.sec-head p{max-width:42ch;margin:0;color:var(--muted)}
+
+/* ---------- weather picker ---------- */
+.picker{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr);gap:28px;align-items:stretch}
+.meter{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:32px;display:flex;flex-direction:column;gap:22px;transition:background-color .8s}
+.deg{font-family:var(--display);font-weight:800;font-size:clamp(76px,10vw,140px);line-height:.9;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.mood{font-family:var(--display);font-weight:500;font-size:22px}
+.mood-sub{color:var(--muted);margin:0;min-height:3.1em}
+.range{-webkit-appearance:none;appearance:none;width:100%;height:16px;border-radius:999px;background:linear-gradient(90deg,var(--cold),#E7D3C4 52%,var(--hot));outline:none;margin:6px 0 0}
+.range::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;border-radius:50%;background:var(--milk);border:3px solid var(--cocoa);box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:grab}
+.range::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:var(--milk);border:3px solid var(--cocoa);cursor:grab}
+.range:focus-visible{outline:2px solid var(--accent);outline-offset:6px}
+.scale{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.presets{display:flex;flex-wrap:wrap;gap:8px}
+.presets button{all:unset;cursor:pointer;padding:8px 14px;border-radius:999px;border:1px solid var(--line);font-size:13px;font-weight:700;background:var(--chip)}
+.presets button:hover{border-color:var(--fg)}
+.presets button:focus-visible{outline:2px solid var(--accent)}
+.recs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.rec{position:relative;background:var(--card);border-radius:var(--r-md);overflow:hidden;display:flex;flex-direction:column;text-decoration:none;border:1px solid var(--line);transition:transform .35s ease,background-color .8s;animation:pop .5s ease both}
+.rec:hover{transform:translateY(-4px)}
+.rec .ph{aspect-ratio:3/4;overflow:hidden;background:var(--bg2)}
+.rec .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 18%;transition:transform .6s ease}
+.rec:hover .ph img{transform:scale(1.04)}
+.rec .tx{padding:16px 18px 20px;display:flex;flex-direction:column;gap:6px}
+.rec h3{font-family:var(--body);font-weight:700;font-size:17px;line-height:1.25;letter-spacing:0}
+.rec p{margin:0;font-size:14px;color:var(--muted);line-height:1.4}
+.rec .go{margin-top:6px;font-size:13px;font-weight:700;color:var(--accent)}
+.rec .ph.soon{display:grid;place-items:center;background:linear-gradient(160deg,#FFD9B8,#F4A98A 55%,#E58A6B);color:#2A1B15}
+.soon-sun{width:46%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 38%,#FFF4D9,#FFC98F 60%,#F6A26E);box-shadow:0 0 60px 20px rgba(255,220,170,.7);animation:breathe 4s ease-in-out infinite}
+@keyframes pop{from{opacity:.0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ---------- why ---------- */
+.why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--line)}
+.why div{padding:34px 28px 10px 0;display:flex;flex-direction:column;gap:12px}
+.why div+div{padding-left:28px;border-left:1px solid var(--line)}
+.why strong{font-family:var(--display);font-weight:800;font-size:clamp(44px,5.6vw,84px);line-height:.95;letter-spacing:-.03em;color:var(--accent);transition:color .8s}
+.why h3{font-family:var(--display);font-weight:500;font-size:20px;line-height:1.2;letter-spacing:-.01em}
+.why p{margin:0;color:var(--muted);max-width:34ch}
+
+/* ---------- collections ---------- */
+.bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+.col{position:relative;border-radius:var(--r-lg);overflow:hidden;min-height:440px;display:flex;flex-direction:column;justify-content:flex-end;color:#FBF4EE;isolation:isolate;text-decoration:none}
+.col img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .9s ease}
+.col:hover img{transform:scale(1.035)}
+.col::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(30,18,13,0) 35%,rgba(30,18,13,.78))}
+.col .in{padding:30px;display:flex;flex-direction:column;gap:14px}
+.col h3{font-size:clamp(30px,3.6vw,52px)}
+.col .tag{align-self:flex-start;background:rgba(251,244,238,.92);color:#2A1B15;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:7px 12px;border-radius:999px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.chips li{border:1px solid rgba(251,244,238,.45);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;backdrop-filter:blur(6px);background:rgba(251,244,238,.08)}
+.c-winter{grid-column:span 7;min-height:620px}
+.c-winter img{object-position:50% 18%}
+.c-base{grid-column:span 5;min-height:620px}
+.c-vac{grid-column:span 12;min-height:360px;color:#2A1B15;background:linear-gradient(120deg,#FFE3C8 0%,#F9C3A2 45%,#EE9E7E 100%)}
+.c-vac::after{display:none}
+.c-vac .chips li{border-color:rgba(42,27,21,.3);background:rgba(255,255,255,.35)}
+.c-vac .tag{background:#2A1B15;color:#FFE3C8}
+.vac-sun{position:absolute;right:8%;top:50%;translate:0 -50%;width:clamp(150px,22vw,280px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 38%,#FFF7E2,#FFD39C 55%,#F8A877);box-shadow:0 0 90px 30px rgba(255,226,180,.7);z-index:-1;animation:breathe 6s ease-in-out infinite}
+.vac-waves{position:absolute;left:0;bottom:0;width:100%;height:46%;z-index:-1;opacity:.55}
+.vac-waves path{animation:wave 7s ease-in-out infinite alternate}
+.vac-waves path:nth-child(2){animation-duration:9s;animation-direction:alternate-reverse}
+@keyframes wave{to{transform:translateX(-60px)}}
+.c-vac h3{max-width:12ch}
+.c-vac{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:center;gap:8px;min-height:480px}
+.c-vac .in{align-self:end}
+.vac-sub{margin:0;font-weight:700;font-size:16px}
+.vac-photos{position:relative;z-index:1;height:100%;min-height:420px}
+.vac-photos img{position:absolute;width:33%;aspect-ratio:3/4;object-fit:cover;border-radius:20px;box-shadow:0 18px 40px rgba(120,60,30,.28);border:6px solid #FFF7EF;transition:transform .5s ease}
+.vac-photos img:nth-child(1){left:6%;top:18%;transform:rotate(-7deg)}
+.vac-photos img:nth-child(2){left:34%;top:8%;transform:rotate(3deg);z-index:2}
+.vac-photos img:nth-child(3){left:61%;top:20%;transform:rotate(9deg)}
+.c-vac:hover .vac-photos img:nth-child(1){transform:rotate(-10deg) translateX(-8px)}
+.c-vac:hover .vac-photos img:nth-child(3){transform:rotate(12deg) translateX(8px)}
+
+/* ---------- lookbook ---------- */
+.look{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:18px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;cursor:grab}
+.look figure{flex:0 0 clamp(220px,24vw,320px);margin:0;scroll-snap-align:start;display:flex;flex-direction:column;gap:10px}
+.look img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:50% 20%;border-radius:var(--r-md);background:var(--bg2);pointer-events:none}
+.look figcaption{font-size:14px;font-weight:700;color:var(--muted)}
+
+/* ---------- buy ---------- */
+.buy{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.mp{border-radius:var(--r-lg);padding:36px;min-height:260px;display:flex;flex-direction:column;justify-content:space-between;gap:30px;text-decoration:none;transition:transform .3s ease;color:#fff}
+.mp:hover{transform:translateY(-4px)}
+.mp b{font-family:var(--display);font-weight:800;font-size:clamp(34px,4.6vw,64px);line-height:.95;letter-spacing:-.03em}
+.mp span{font-weight:700;display:flex;align-items:center;gap:10px}
+.mp svg{width:22px;height:22px}
+.mp-wb{background:linear-gradient(135deg,#CB11AB,#7A1FE0)}
+.mp-oz{background:linear-gradient(135deg,#005BFF,#0A2FA8)}
+.buy-note{grid-column:1/-1;color:var(--muted);font-size:14px;margin:6px 0 0}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding-block:48px 56px}
+.foot{display:grid;grid-template-columns:1fr 1.4fr;gap:32px}
+.foot .brand b{font-size:26px}
+.foot p{margin:0;color:var(--muted);font-size:13px;line-height:1.6;max-width:70ch}
+.legal{display:flex;flex-direction:column;gap:10px}
+
+@media (max-width:960px){
+  .nav{display:none}
+  .hero-grid{grid-template-columns:1fr;min-height:0;padding-block:8px 56px}
+  .giant{font-size:clamp(40px,12.5vw,96px)}
+  .stage{order:-1;width:min(88vw,460px);margin:0 auto}
+  .picker{grid-template-columns:1fr}
+  .c-winter,.c-base{grid-column:span 12;min-height:520px}
+  .c-vac{grid-template-columns:1fr}
+  .vac-photos{order:-1;min-height:min(72vw,400px)}
+  .vac-photos img{width:38%;border-width:4px}
+  .vac-photos img:nth-child(1){left:3%}
+  .vac-photos img:nth-child(2){left:31%}
+  .vac-photos img:nth-child(3){left:58%}
+  .why{grid-template-columns:1fr}
+  .why div+div{padding-left:0;border-left:0;border-top:1px solid var(--line)}
+  .foot{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .recs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .recs .rec:nth-child(3){grid-column:1/-1}
+  .recs .rec:nth-child(3) .ph{aspect-ratio:16/10}
+  .buy{grid-template-columns:1fr}
+  .season button{padding:8px 12px}
+  .brand b{font-size:18px}
+  .col .in{padding:22px}
+  .meter{padding:24px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<main id="top">
+<div class="hero">
+<canvas id="sky" aria-hidden="true"></canvas>
+<header class="wrap top">
+  <a class="brand" href="#top" aria-label="EasyForm — на главную"><img src="assets/img/ef-logo.png" alt="" width="42" height="43"><b>EasyForm</b></a>
+  <nav class="nav" aria-label="Разделы">
+    <a href="#weather">Подбор по погоде</a>
+    <a href="#collections">Коллекции</a>
+    <a href="#look">Лукбук</a>
+    <a href="#buy">Где купить</a>
+  </nav>
+  <div class="season" role="group" aria-label="Сезон">
+    <button type="button" id="s-winter" data-s="winter" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M4.9 7l14.2 10M4.9 17 19.1 7M9 4l3 3 3-3M9 20l3-3 3 3"/></svg>Зима</button>
+    <button type="button" id="s-summer" data-s="summer" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2.5M12 20v2.5M1.5 12H4M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>Лето</button>
+  </div>
+</header>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <div class="kicker">Твой поставщик</div>
+        <h1 class="giant" id="giant"><span class="w">тепла</span></h1>
+        <p class="lead" id="lead"><b>EasyForm — комфорт в любую погоду.</b> Термобельё, леггинсы с начёсом и носки из шерсти, в которых тепло без десяти слоёв.</p>
+        <div class="cta">
+          <a class="btn btn--fill" href="https://www.wildberries.ru/catalog/0/search.aspx?search=easyform" target="_blank" rel="noopener">Смотреть на Wildberries <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+          <a class="btn" href="#weather">Подобрать по погоде</a>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="halo"></div>
+        <div class="floor"></div>
+        <div class="logo3d" id="logo3d" role="img" aria-label="Логотип EasyForm">
+          <img src="assets/img/ef-3d.png" alt="" width="700" height="714">
+          <canvas id="logoGL" aria-hidden="true"></canvas>
+        </div>
+        <div class="sticker" id="sticker"><div><span>−32°</span><small>Active<br>Warm</small></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track" id="ticker"></div>
+  </div>
+
+  <section id="weather">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Сколько<br>за окном?</h2>
+        <p>Двигай ползунок, и мы соберём образ под погоду: от крещенских морозов до отпуска у моря.</p>
+      </div>
+      <div class="picker">
+        <div class="meter">
+          <div class="eyebrow">Температура</div>
+          <div class="deg" id="deg" aria-live="polite">−12°</div>
+          <div>
+            <div class="mood" id="mood">Морозно</div>
+            <p class="mood-sub" id="moodSub"></p>
+          </div>
+          <div>
+            <label class="eyebrow" for="temp" style="display:block;margin-bottom:10px">Выбери градусы</label>
+            <input class="range" id="temp" type="range" min="-30" max="35" step="1" value="-12">
+            <div class="scale"><span>−30°</span><span>0°</span><span>+35°</span></div>
+          </div>
+          <div class="presets" aria-label="Быстрый выбор">
+            <button type="button" data-t="-25">Крещенские</button>
+            <button type="button" data-t="-8">Слякоть</button>
+            <button type="button" data-t="8">Межсезонье</button>
+            <button type="button" data-t="18">Тепло</button>
+            <button type="button" data-t="30">Отпуск</button>
+          </div>
+        </div>
+        <div class="recs" id="recs"></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="why">
+        <div><strong>−32°</strong><h3>Термобельё ActiveWarm</h3><p>Держит тепло на прогулке, на склоне и в дороге и выводит влагу наружу.</p></div>
+        <div><strong>1 слой</strong><h3>вместо десяти</h3><p>Тонкая термомайка под пиджак или пальто. Тепло, и фигура не теряется под кофтами.</p></div>
+        <div><strong>365 дней</strong><h3>комфорта в году</h3><p>Зимой согреваем, летом даём лёгкость: база, которая садится по фигуре в любой сезон.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="collections" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Коллекции</h2>
+        <p>Три линии EasyForm: тепло на зиму, база на каждый день и лёгкость для отпуска.</p>
+      </div>
+      <div class="bento">
+        <a class="col c-winter" href="https://www.wildberries.ru/catalog/0/search.aspx?search=easyform%20%D1%82%D0%B5%D1%80%D0%BC%D0%BE" target="_blank" rel="noopener">
+          <img src="assets/img/gen-1.webp" alt="Девушка в термобелье EasyForm и белой меховой шапке под снегом" loading="lazy">
+          <div class="in">
+            <span class="tag">Зима</span>
+            <h3>Твой поставщик тепла</h3>
+            <ul class="chips"><li>Термобельё</li><li>Термомайки</li><li>Термошорты с начёсом</li><li>Тёплые панталоны</li><li>Леггинсы с начёсом</li><li>Носки: верблюд, ангора, кашемир</li><li>Стельки</li></ul>
+          </div>
+        </a>
+        <a class="col c-base" href="https://www.wildberries.ru/catalog/0/search.aspx?search=easyform%20%D1%88%D0%BE%D1%80%D1%82%D1%8B" target="_blank" rel="noopener">
+          <img src="assets/img/gen-2.webp" alt="Модель в бесшовных шортах и топе EasyForm телесного цвета" loading="lazy">
+          <div class="in">
+            <span class="tag">Каждый день</span>
+            <h3>База по фигуре</h3>
+            <ul class="chips"><li>Корректирующие шорты</li><li>Панталоны</li><li>Леггинсы</li><li>Базовые майки</li></ul>
+          </div>
+        </a>
+        <a class="col c-vac" href="https://www.wildberries.ru/catalog/0/search.aspx?search=easyform%20%D1%82%D1%83%D0%BD%D0%B8%D0%BA%D0%B0" target="_blank" rel="noopener">
+          <div class="vac-sun"></div>
+          <svg class="vac-waves" viewBox="0 0 1200 200" preserveAspectRatio="none" aria-hidden="true"><path d="M-300 90 Q-150 40 0 90 T300 90 T600 90 T900 90 T1200 90 T1500 90 V200 H-300Z" fill="#FFF3E6"/><path d="M-300 130 Q-100 90 100 130 T500 130 T900 130 T1300 130 T1700 130 V200 H-300Z" fill="#FFFFFF"/></svg>
+          <div class="in">
+            <span class="tag">Лето</span>
+            <h3>EasyForm Vacation Wear</h3>
+            <p class="vac-sub">Твой поставщик комфорта у моря</p>
+            <ul class="chips"><li>Пляжные туники</li><li>Рубашки с капюшоном</li><li>Одежда для отпуска</li><li>Купальники скоро</li></ul>
+          </div>
+          <div class="vac-photos" aria-hidden="true">
+            <img src="assets/img/tun-back.webp" alt="" loading="lazy">
+            <img src="assets/img/tun-pool.webp" alt="" loading="lazy">
+            <img src="assets/img/tun-front.webp" alt="" loading="lazy">
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="look" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Лукбук</h2>
+        <p>Листай вбок. Так EasyForm носят каждый день.</p>
+      </div>
+      <div class="look" id="lookbook" tabindex="0" aria-label="Лукбук, прокрутка вбок"></div>
+    </div>
+  </section>
+
+  <section id="buy" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Где купить</h2>
+        <p>Мы продаём на маркетплейсах: там актуальные цены, размеры, доставка и возврат.</p>
+      </div>
+      <div class="buy">
+        <a class="mp mp-wb" href="https://www.wildberries.ru/catalog/0/search.aspx?search=easyform" target="_blank" rel="noopener"><b>Wildberries</b><span>Открыть магазин EasyForm <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+        <a class="mp mp-oz" href="https://www.ozon.ru/search/?text=easyform" target="_blank" rel="noopener"><b>Ozon</b><span>Открыть магазин EasyForm <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="legal">
+      <a class="brand" href="#top"><img src="assets/img/ef-logo.png" alt="" width="42" height="43"><b>EasyForm</b></a>
+      <p>Комфорт в любую погоду.</p>
+      <p>© <span id="yr">2026</span> EasyForm</p>
+    </div>
+    <div class="legal">
+      <p>Информация на сайте носит ознакомительный характер и не является публичной офертой (ст. 437 ГК РФ). Ассортимент, цены и наличие указаны на страницах товаров в маркетплейсах. Оформление заказа, оплата, доставка и возврат проходят на Wildberries и Ozon по правилам этих площадок.</p>
+      <p>Сайт не собирает персональные данные, не использует формы обратной связи, cookies и счётчики посещаемости.</p>
+      <p>Wildberries и Ozon являются товарными знаками их правообладателей.</p>
+      <!-- Реквизиты продавца (по желанию): ИП Фамилия И. О., ОГРНИП …, ИНН … -->
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/three.min.js"></script>
+<script>
+(function(){
+  const root=document.documentElement;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const WB='https://www.wildberries.ru/catalog/0/search.aspx?search=';
+  const wbq=q=>WB+encodeURIComponent('easyform '+q);
+  const wbId=id=>'https://www.wildberries.ru/catalog/'+id+'/detail.aspx';
+  document.getElementById('yr').textContent=new Date().getFullYear();
+
+  /* ---------- products ---------- */
+  const P={
+    tb:{n:'Термобельё ActiveWarm',d:'Лонгслив и леггинсы, эффективно до −32°. Для прогулок, склона и дороги.',img:'tb-pose',url:wbId(1796630731)},
+    socks:{n:'Термоноски из шерсти',d:'Верблюжья шерсть, ангора, кашемир. Ноги в тепле даже в мороз.',img:'socks-coffee',url:wbq('термоноски')},
+    legg:{n:'Леггинсы с начёсом',d:'Мягкий начёс внутри, высокая посадка, до −20°.',img:'legg-fleece',url:wbq('леггинсы утепленные')},
+    tank:{n:'Термомайка с пуш-ап',d:'Тонкая, под пиджак и пальто. Держит тепло до −15°.',img:'tank-hero',url:wbId(502685453)},
+    shorts:{n:'Термошорты с начёсом',d:'Под юбку и платье, когда на улице холодно.',img:'panty-black',url:wbId(474514093)},
+    pair:{n:'Термомайка + термошорты',d:'Идеальная пара на межсезонье: незаметно под одеждой.',img:'pair',url:wbq('термомайка')},
+    seam:{n:'Бесшовные шорты',d:'Корректируют и не видны под платьем и брюками.',img:'gen-2',url:wbq('корректирующие шорты')},
+    leg:{n:'Леггинсы на каждый день',d:'Высокая посадка, садятся по фигуре и не сползают.',img:'leg-front',url:wbq('леггинсы')},
+    basetank:{n:'Базовая майка',d:'Один топ на десятки образов: в брюки или навыпуск.',img:'tank-front',url:wbq('майка')},
+    vac:{n:'Пляжная туника',d:'Лёгкая рубашка с капюшоном: на пляж, в город и на отдых у моря.',img:'tun-back',url:wbq('туника')}
+  };
+  const RANGES=[
+    {max:-16,m:'Крещенские морозы',s:'Собираем максимум тепла: термобельё, шерстяные носки и начёс.',p:['tb','socks','legg']},
+    {max:-1, m:'Морозно',s:'Тепло под обычной одеждой, без лишних свитеров.',p:['legg','tank','shorts']},
+    {max:12, m:'Межсезонье',s:'Сыро и ветрено: один тонкий тёплый слой спасает день.',p:['pair','tank','socks']},
+    {max:23, m:'Тепло',s:'Лёгкая база по фигуре, которая не видна под одеждой.',p:['seam','leg','basetank']},
+    {max:99, m:'Жара и отпуск',s:'Лёгкость, море и солнце: туника поверх купальника и база, которая не видна под платьем.',p:['vac','seam','basetank']}
+  ];
+  const recs=document.getElementById('recs'),deg=document.getElementById('deg'),mood=document.getElementById('mood'),moodSub=document.getElementById('moodSub'),temp=document.getElementById('temp');
+  let lastBand=-1;
+  function card(k){
+    const p=P[k];
+    const POS={'panty-black':'50% 60%','legg-fleece':'50% 0%','socks-coffee':'50% 60%'};
+    const ph=p.img?`<div class="ph"><img src="assets/img/${p.img}.webp" alt="${p.n}" loading="lazy"${POS[p.img]?` style="object-position:${POS[p.img]}"`:''}></div>`:`<div class="ph soon"><div class="soon-sun"></div></div>`;
+    const go=p.url?'<span class="go">Смотреть на WB →</span>':'<span class="go">Скоро</span>';
+    const inner=`${ph}<div class="tx"><h3>${p.n}</h3><p>${p.d}</p>${go}</div>`;
+    return p.url?`<a class="rec" href="${p.url}" target="_blank" rel="noopener">${inner}</a>`:`<div class="rec">${inner}</div>`;
+  }
+  function setTemp(t){
+    temp.value=t;
+    deg.textContent=(t>0?'+':t<0?'−':'')+Math.abs(t)+'°';
+    const i=RANGES.findIndex(r=>t<=r.max);
+    const r=RANGES[i];
+    mood.textContent=r.m;moodSub.textContent=r.s;
+    if(i!==lastBand){lastBand=i;recs.innerHTML=r.p.map(card).join('');}
+  }
+  temp.addEventListener('input',e=>setTemp(+e.target.value));
+  document.querySelectorAll('.presets button').forEach(b=>b.addEventListener('click',()=>setTemp(+b.dataset.t)));
+
+  /* ---------- lookbook ---------- */
+  const LOOK=[['gen-1','Термобельё ActiveWarm'],['gen-2','Бесшовная база'],['tun-back','Пляжная туника'],['gen-3','Термомайка под пальто'],['leg-back','Леггинсы, высокая посадка'],['socks-coffee','Носки из шерсти'],['tb-black','Термобельё на склоне'],['pair','Термомайка + термошорты'],['legg-fleece','Леггинсы с начёсом'],['tank-front','Базовая майка'],['tb-cuff','Манжеты держат тепло'],['leg-side','Леггинсы на каждый день'],['tb-detail','Посадка по фигуре'],['panty-black','Шорты с флисовым начёсом']];
+  const lb=document.getElementById('lookbook');
+  lb.innerHTML=LOOK.map(([f,c])=>`<figure><img src="assets/img/${f}.webp" alt="${c}" loading="lazy"><figcaption>${c}</figcaption></figure>`).join('');
+  let drag=null;
+  lb.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;drag={x:e.clientX,s:lb.scrollLeft};lb.style.scrollSnapType='none';lb.style.cursor='grabbing'});
+  addEventListener('pointermove',e=>{if(drag)lb.scrollLeft=drag.s-(e.clientX-drag.x)});
+  addEventListener('pointerup',()=>{if(drag){drag=null;lb.style.scrollSnapType='';lb.style.cursor=''}});
+
+  /* ---------- ticker ---------- */
+  const T={winter:['тепло','мягко','по фигуре','без десяти слоёв','до −32°','твой поставщик тепла'],summer:['легко','дышит','по фигуре','комфорт в жару','на отдых','твой поставщик комфорта']};
+  const tk=document.getElementById('ticker');
+  function fillTicker(s){const one=T[s].map(w=>`<span>${w}<i></i></span>`).join('');tk.innerHTML=one+one+one+one;}
+
+  /* ---------- season ---------- */
+  const giant=document.getElementById('giant'),lead=document.getElementById('lead'),sticker=document.getElementById('sticker');
+  const COPY={
+    winter:{w:'тепла',lead:'<b>EasyForm — комфорт в любую погоду.</b> Термобельё, леггинсы с начёсом и носки из шерсти, в которых тепло без десяти слоёв.',st:'<span>−32°</span><small>Active<br>Warm</small>',t:-12},
+    summer:{w:'комфорта',lead:'<b>EasyForm — комфорт в любую погоду.</b> Бесшовная база, которая не видна под платьем, и летняя линия Vacation Wear для отпуска.',st:'<span>+30°</span><small>и легко</small>',t:27}
+  };
+  let season;
+  function setSeason(s,save){
+    season=s;root.dataset.season=s;
+    document.querySelectorAll('.season button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===s));
+    giant.innerHTML=`<span class="w">${COPY[s].w}</span>`;
+    lead.innerHTML=COPY[s].lead;sticker.innerHTML='<div>'+COPY[s].st+'</div>';
+    fillTicker(s);setTemp(COPY[s].t);sky.mode(s);logo3d.season(s);
+    if(!reduce&&giant.animate)giant.animate([{opacity:0,transform:'translateY(18px)'},{opacity:1,transform:'none'}],{duration:600,easing:'cubic-bezier(.2,.7,.2,1)'});
+    if(save){try{localStorage.setItem('ef-season',s)}catch(e){}}
+  }
+  document.querySelectorAll('.season button').forEach(b=>b.addEventListener('click',()=>setSeason(b.dataset.s,true)));
+
+  /* ---------- 3D logo: heightmap-inflated clay mesh (three.js) ---------- */
+  const logo3d=(function(){
+    const box=document.getElementById('logo3d'),cv=document.getElementById('logoGL');
+    if(!window.THREE)return{season(){}};
+    let renderer;
+    try{renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true})}catch(e){return{season(){}}}
+    renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
+    if('outputColorSpace' in renderer)renderer.outputColorSpace=THREE.SRGBColorSpace;
+    const scene=new THREE.Scene();
+    const cam=new THREE.PerspectiveCamera(28,1,0.1,20);cam.position.set(0,0,2.35);
+    const hemi=new THREE.HemisphereLight(0xfff4e8,0xb88d74,1.15);scene.add(hemi);
+    const key=new THREE.DirectionalLight(0xfff1e2,2.1);key.position.set(-1.2,1.4,2.2);scene.add(key);
+    const rim=new THREE.DirectionalLight(0xffc49a,1.2);rim.position.set(1.6,-.4,-1.2);scene.add(rim);
+    const fill=new THREE.DirectionalLight(0xffe2cc,.55);fill.position.set(1.2,.2,1.6);scene.add(fill);
+    const group=new THREE.Group();scene.add(group);
+    const SEG=360,DEPTH=0.105;
+    const load=src=>new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=src});
+    Promise.all([load('assets/img/ef-height.png'),load('assets/img/ef-alpha.png')]).then(([hImg,aImg])=>{
+      const c=document.createElement('canvas');c.width=hImg.width;c.height=hImg.height;
+      const cx=c.getContext('2d');cx.drawImage(hImg,0,0);const hd=cx.getImageData(0,0,c.width,c.height).data,HW=c.width,HH=c.height;
+      const hAt=(u,v)=>{const x=u*(HW-1),y=(1-v)*(HH-1),x0=Math.floor(x),y0=Math.floor(y),x1=Math.min(x0+1,HW-1),y1=Math.min(y0+1,HH-1),fx=x-x0,fy=y-y0;
+        const g=(xx,yy)=>{const k=(yy*HW+xx)*4;return (hd[k]*256+hd[k+1])/65535};return (g(x0,y0)*(1-fx)+g(x1,y0)*fx)*(1-fy)+(g(x0,y1)*(1-fx)+g(x1,y1)*fx)*fy};
+      const geo=new THREE.PlaneGeometry(1,1,SEG,SEG);
+      const pos=geo.attributes.position,uv=geo.attributes.uv;
+      for(let i=0;i<pos.count;i++){pos.setZ(i,hAt(uv.getX(i),uv.getY(i))*DEPTH)}
+      geo.computeVertexNormals();
+      const alpha=new THREE.Texture(aImg);alpha.needsUpdate=true;alpha.anisotropy=4;
+      const mat=new THREE.MeshStandardMaterial({color:0xf8f2ea,roughness:.58,metalness:0,alphaMap:alpha,alphaTest:.5});
+      const front=new THREE.Mesh(geo,mat),back=new THREE.Mesh(geo,mat);back.scale.z=-1;
+      group.add(front,back);
+      box.classList.add('gl');start();
+    }).catch(()=>{});
+    function size(){const w=cv.clientWidth,h=cv.clientHeight;if(!w)return;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+    if(window.ResizeObserver)new ResizeObserver(size).observe(cv);size();
+    let tx=0,ty=0,px=0,py=0,raf=0,vis=true;
+    if(matchMedia('(pointer:fine)').matches){
+      const stage=box.closest('.stage');
+      stage.addEventListener('pointermove',e=>{const r=stage.getBoundingClientRect();tx=((e.clientX-r.left)/r.width-.5);ty=((e.clientY-r.top)/r.height-.5)});
+      stage.addEventListener('pointerleave',()=>{tx=0;ty=0});
+    }
+    function frame(t){
+      const s=t/1000;
+      px+=(tx-px)*.06;py+=(ty-py)*.06;
+      const sway=reduce?0:Math.sin(s*.45)*.5;
+      group.rotation.y=sway+px*.5;
+      group.rotation.x=(reduce?0:Math.sin(s*.33)*.07)+py*.35;
+      renderer.render(scene,cam);
+      if(!reduce&&vis)raf=requestAnimationFrame(frame);
+    }
+    function start(){cancelAnimationFrame(raf);raf=requestAnimationFrame(frame)}
+    new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis)start()}).observe(box);
+    return{season(s){
+      if(s==='winter'){hemi.color.set(0xffeadb);hemi.groundColor.set(0x6b4434);rim.color.set(0xffb088);rim.intensity=1.3;key.intensity=2.0}
+      else{hemi.color.set(0xfff6ea);hemi.groundColor.set(0xc49b80);rim.color.set(0xffd2a8);rim.intensity=1.1;key.intensity=2.2}
+      if(reduce)start();
+    }};
+  })();
+
+  /* ---------- sky canvas ---------- */
+  const sky=(function(){
+    const c=document.getElementById('sky'),x=c.getContext('2d');
+    let W=0,H=0,dpr=1,parts=[],mode='winter',fade=1,visible=true,raf=0,t0=0;
+    function size(){dpr=Math.min(devicePixelRatio||1,2);W=c.clientWidth;H=c.clientHeight;c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0);}
+    function make(burst,cx,cy){
+      const p={};
+      if(mode==='winter'){p.x=burst?cx:Math.random()*W;p.y=burst?cy:Math.random()*H;p.r=Math.random()*2.6+0.8;p.vy=burst?(Math.random()-.6)*3:Math.random()*0.6+0.25;p.vx=burst?(Math.random()-.5)*4:0;p.ph=Math.random()*6.28;p.sw=Math.random()*0.6+0.2;p.a=Math.random()*0.5+0.45}
+      else{p.x=burst?cx:Math.random()*W;p.y=burst?cy:Math.random()*H;p.r=Math.random()*5+2;p.vy=burst?(Math.random()-.5)*3:-(Math.random()*0.35+0.1);p.vx=burst?(Math.random()-.5)*4:0;p.ph=Math.random()*6.28;p.sw=Math.random()*0.4+0.1;p.a=Math.random()*0.35+0.15}
+      p.life=burst?90:Infinity;return p;
+    }
+    function seed(){const n=Math.round(Math.min(160,W*H/9000));parts=[];for(let i=0;i<n;i++)parts.push(make())}
+    function draw(t){
+      const dt=Math.min(32,t-(t0||t))/16;t0=t;
+      x.clearRect(0,0,W,H);
+      if(mode==='summer'){
+        const sx=W*0.78,sy=H*0.18,g=x.createRadialGradient(sx,sy,0,sx,sy,Math.max(W,H)*0.6);
+        g.addColorStop(0,'rgba(255,236,200,.9)');g.addColorStop(.25,'rgba(255,214,170,.35)');g.addColorStop(1,'rgba(255,214,170,0)');
+        x.fillStyle=g;x.fillRect(0,0,W,H);
+        x.save();x.translate(sx,sy);x.rotate(t/18000);
+        for(let i=0;i<12;i++){x.rotate(Math.PI/6);x.fillStyle='rgba(255,240,215,.10)';x.beginPath();x.moveTo(0,0);x.lineTo(Math.max(W,H),-40);x.lineTo(Math.max(W,H),40);x.closePath();x.fill()}
+        x.restore();
+      }else{
+        const g=x.createRadialGradient(W*0.72,H*0.5,0,W*0.72,H*0.5,Math.max(W,H)*0.55);
+        g.addColorStop(0,'rgba(239,150,105,.22)');g.addColorStop(1,'rgba(239,150,105,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+      }
+      x.globalAlpha=fade;
+      for(let i=parts.length-1;i>=0;i--){
+        const p=parts[i];p.ph+=0.01*dt;
+        p.x+=(p.vx+Math.sin(p.ph)*p.sw)*dt;p.y+=p.vy*dt;
+        if(p.life!==Infinity){p.vx*=.97;p.vy=p.vy*.97+(mode==='winter'?.03:-.02);if(--p.life<=0){parts.splice(i,1);continue}}
+        if(mode==='winter'){if(p.y>H+6){p.y=-6;p.x=Math.random()*W}x.fillStyle=`rgba(255,248,240,${p.a})`;x.beginPath();x.arc(p.x,p.y,p.r,0,6.283);x.fill()}
+        else{if(p.y<-10){p.y=H+10;p.x=Math.random()*W}const gg=x.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);gg.addColorStop(0,`rgba(255,255,255,${p.a+.25})`);gg.addColorStop(1,'rgba(255,240,220,0)');x.fillStyle=gg;x.beginPath();x.arc(p.x,p.y,p.r,0,6.283);x.fill()}
+        if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;
+      }
+      x.globalAlpha=1;
+      if(fade<1)fade=Math.min(1,fade+0.03*dt);
+      if(!reduce&&visible)raf=requestAnimationFrame(draw);
+    }
+    function start(){cancelAnimationFrame(raf);t0=0;raf=requestAnimationFrame(draw)}
+    addEventListener('resize',()=>{size();seed();if(reduce)draw(0)});
+    new IntersectionObserver(es=>{visible=es[0].isIntersecting&&!document.hidden;if(visible&&!reduce)start()}).observe(c);
+    document.addEventListener('visibilitychange',()=>{visible=!document.hidden;if(visible&&!reduce)start()});
+    size();
+    return{
+      mode(m){mode=m;fade=0;seed();if(reduce){fade=1;draw(0)}else start()},
+      puff(){if(reduce)return;const r=document.getElementById('logo3d').getBoundingClientRect(),cr=c.getBoundingClientRect();for(let i=0;i<40;i++)parts.push(make(true,r.left-cr.left+r.width/2,r.top-cr.top+r.height/2))}
+    };
+  })();
+
+  /* ---------- init ---------- */
+  let saved=null;try{saved=localStorage.getItem('ef-season')}catch(e){}
+  const m=new Date().getMonth()+1;
+  setSeason(saved||((m>=10||m<=3)?'winter':'summer'),false);
+})();
+</script>
+</body>
+</html>
