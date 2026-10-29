@@ -384,12 +384,12 @@ footer{border-top:1px solid var(--line);padding-block:48px 56px}
             <span class="tag">Лето</span>
             <h3>EasyForm Vacation Wear</h3>
             <p class="vac-sub">Твой поставщик комфорта у моря</p>
-            <ul class="chips"><li>Пляжные туники</li><li>Рубашки с капюшоном</li><li>Одежда для отпуска</li><li>Купальники скоро</li></ul>
+            <ul class="chips"><li>Пляжные туники</li><li>Рубашки с капюшоном</li><li>Парео</li><li>Одежда для отпуска</li><li>Купальники скоро</li></ul>
           </div>
           <div class="vac-photos" aria-hidden="true">
             <img src="assets/img/tun-back.webp" alt="" loading="lazy">
             <img src="assets/img/tun-pool.webp" alt="" loading="lazy">
-            <img src="assets/img/tun-front.webp" alt="" loading="lazy">
+            <img src="assets/img/pareo.webp" alt="" loading="lazy">
           </div>
         </a>
       </div>
@@ -511,7 +511,7 @@ footer{border-top:1px solid var(--line);padding-block:48px 56px}
   }
 
   /* ---------- lookbook ---------- */
-  const LOOK=[['gen-1','Термобельё ActiveWarm'],['gen-3','Термомайка с пуш-ап'],['gen-6','Термомайка и термошорты'],['gen-4','Леггинсы с начёсом'],['socks-pack','Термоноски из шерсти'],['gen-2','Шорты от натирания'],['tun-back','Пляжная туника'],['gen-7','Vacation Wear'],['tb-black','Термобельё на склоне'],['leg-back','Леггинсы, высокая посадка'],['tank-front','Термомайка базовая'],['socks-coffee','Носки к капучино'],['tb-cuff','Манжеты держат тепло']];
+  const LOOK=[['gen-1','Термобельё ActiveWarm'],['gen-3','Термомайка с пуш-ап'],['gen-6','Термомайка и термошорты'],['gen-4','Леггинсы с начёсом'],['socks-pack','Термоноски из шерсти'],['gen-2','Шорты от натирания'],['tun-back','Пляжная туника'],['pareo','Пляжное парео'],['gen-7','Vacation Wear'],['tb-black','Термобельё на склоне'],['leg-back','Леггинсы, высокая посадка'],['tank-front','Термомайка базовая'],['socks-coffee','Носки к капучино'],['tb-cuff','Манжеты держат тепло']];
   const lb=document.getElementById('lookbook');
   lb.innerHTML=LOOK.map(([f,c])=>`<figure><img src="assets/img/${f}.webp" alt="${c}" loading="lazy"><figcaption>${c}</figcaption></figure>`).join('');
   let drag=null;
