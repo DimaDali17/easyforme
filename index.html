@@ -121,6 +121,7 @@ section{padding-block:clamp(64px,9vw,120px)}
 .vars{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
 .vars a{font-size:13px;font-weight:700;text-decoration:none;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--chip);transition:border-color .2s}
 .vars a:hover{border-color:var(--fg)}
+.hit .oz{font-size:13px;font-weight:700;color:var(--muted)}
 .hit .btn{margin-top:auto;align-self:flex-start;padding:12px 20px;font-size:13px}
 .hit.main h3{font-size:clamp(24px,2.4vw,34px)}
 .hit.main .btn{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
@@ -206,7 +207,8 @@ section{padding-block:clamp(64px,9vw,120px)}
 .look figcaption{font-size:14px;font-weight:700;color:var(--muted)}
 
 /* ---------- buy ---------- */
-.buy{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.buy{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:16px}
+.mp small{display:block;font-family:var(--body);font-weight:700;font-size:14px;opacity:.85;margin-top:10px;letter-spacing:0}
 .mp{border-radius:var(--r-lg);padding:36px;min-height:260px;display:flex;flex-direction:column;justify-content:space-between;gap:30px;text-decoration:none;transition:transform .3s ease;color:#fff}
 .mp:hover{transform:translateY(-4px)}
 .mp b{font-family:var(--display);font-weight:800;font-size:clamp(34px,4.6vw,64px);line-height:.95;letter-spacing:-.03em}
@@ -411,8 +413,8 @@ footer{border-top:1px solid var(--line);padding-block:48px 56px}
         <p>Мы продаём на маркетплейсах: там актуальные цены, размеры, доставка и возврат.</p>
       </div>
       <div class="buy">
-        <a class="mp mp-wb" href="https://www.wildberries.ru/catalog/0/search.aspx?search=easyform" target="_blank" rel="noopener"><b>Wildberries</b><span>Открыть магазин EasyForm <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
-        <a class="mp mp-oz" href="https://www.ozon.ru/search/?text=easyform" target="_blank" rel="noopener"><b>Ozon</b><span>Открыть магазин EasyForm <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+        <a class="mp mp-wb" href="https://www.wildberries.ru/catalog/0/search.aspx?search=easyform" target="_blank" rel="noopener"><b>Wildberries<small>Весь ассортимент EasyForm</small></b><span>Открыть магазин EasyForm <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
+        <a class="mp mp-oz" href="https://www.ozon.ru/brand/easyform-101778465/" target="_blank" rel="noopener"><b>Ozon<small>Тёплые носки и панталоны от натирания</small></b><span>EasyForm на Ozon <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a>
       </div>
     </div>
   </section>
@@ -491,7 +493,7 @@ footer{border-top:1px solid var(--line);padding-block:48px 56px}
     winter:{t:'Хиты зимы',s:'То, за чем к нам возвращаются каждый холодный сезон.',items:[
       {n:'Термошорты с начёсом',d:'Главный зимний продукт EasyForm. Флисовый начёс внутри, тепло под юбкой и платьем.',img:'gen-6',id:474514093,main:1},
       {n:'Термомайка',d:'Тонкий тёплый слой под пиджак и пальто.',img:'gen-3',id:175099868,v:[['С пуш-ап',175099868],['Базовая',502685453]]},
-      {n:'Термоноски',d:'Натуральная шерсть, тепло даже в сильный мороз.',img:'socks-pack',pos:'40% 50%',id:46158541,v:[['Верблюд',46158541],['Кашемир',186730710],['Ангора',252685981],['Спортивные',270200347]]},
+      {n:'Термоноски',d:'Натуральная шерсть, тепло даже в сильный мороз.',img:'socks-pack',pos:'40% 50%',id:46158541,oz:'https://www.ozon.ru/product/noski-easyform-zhenskie-3-pary-2509258410/',v:[['Верблюд',46158541],['Кашемир',186730710],['Ангора',252685981],['Спортивные',270200347]]},
       {n:'Термобельё ActiveWarm',d:'Комплект для прогулок, склона и дороги, до −32°.',img:'gen-1',id:1796630731}]},
     summer:{t:'Хиты лета',s:'Лёгкость в жару и на отдыхе.',items:[
       {n:'Шорты от натирания',d:'Главный летний продукт EasyForm. Бесшовные, бёдра не трутся в жару, не видны под платьем. Много моделей и цветов.',img:'gen-2',id:211938092,main:1},
@@ -503,8 +505,9 @@ footer{border-top:1px solid var(--line);padding-block:48px 56px}
     const H=HITS[s];document.getElementById('hitsTitle').textContent=H.t;document.getElementById('hitsSub').textContent=H.s;
     hitsGrid.style.gridTemplateColumns=H.items.length===4?'1.5fr 1fr 1fr 1fr':'1.5fr 1fr 1fr';
     hitsGrid.innerHTML=H.items.map(it=>{const u=it.url||wbId(it.id);
+      const oz=it.oz?`<a class="oz" href="${it.oz}" target="_blank" rel="noopener">Есть и на Ozon →</a>`:'';
       const vars=it.v?`<div class="vars">${it.v.map(([l,id])=>`<a href="${wbId(id)}" target="_blank" rel="noopener">${l}</a>`).join('')}</div>`:'';
-      return `<article class="hit${it.main?' main':''}"><a class="ph" href="${u}" target="_blank" rel="noopener" tabindex="-1"><img src="assets/img/${it.img}.webp" alt="${it.n}" loading="lazy"${it.pos?` style="object-position:${it.pos}"`:''}>${it.main?'<span class="badge">Хит №1</span>':''}</a><div class="tx"><h3><a href="${u}" target="_blank" rel="noopener">${it.n}</a></h3><p>${it.d}</p>${vars}<a class="btn" href="${u}" target="_blank" rel="noopener">Смотреть на WB</a></div></article>`}).join('');
+      return `<article class="hit${it.main?' main':''}"><a class="ph" href="${u}" target="_blank" rel="noopener" tabindex="-1"><img src="assets/img/${it.img}.webp" alt="${it.n}" loading="lazy"${it.pos?` style="object-position:${it.pos}"`:''}>${it.main?'<span class="badge">Хит №1</span>':''}</a><div class="tx"><h3><a href="${u}" target="_blank" rel="noopener">${it.n}</a></h3><p>${it.d}</p>${vars}${oz}<a class="btn" href="${u}" target="_blank" rel="noopener">Смотреть на WB</a></div></article>`}).join('');
   }
 
   /* ---------- lookbook ---------- */
