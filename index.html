@@ -384,12 +384,12 @@ footer{border-top:1px solid var(--line);padding-block:48px 56px}
             <span class="tag">Лето</span>
             <h3>EasyForm Vacation Wear</h3>
             <p class="vac-sub">Твой поставщик комфорта у моря</p>
-            <ul class="chips"><li>Пляжные туники</li><li>Рубашки с капюшоном</li><li>Парео</li><li>Одежда для отпуска</li><li>Купальники скоро</li></ul>
+            <ul class="chips"><li>Пляжные туники</li><li>Рубашки с капюшоном</li><li>Парео</li><li>Одежда для отпуска</li><li>Купальники скоро</li><li>Этно-туники</li></ul>
           </div>
           <div class="vac-photos" aria-hidden="true">
             <img src="assets/img/tun-back.webp" alt="" loading="lazy">
-            <img src="assets/img/tun-pool.webp" alt="" loading="lazy">
-            <img src="assets/img/pareo.webp" alt="" loading="lazy">
+            <img src="assets/img/swim.webp" alt="" loading="lazy">
+            <img src="assets/img/tun-ethno.webp" alt="" loading="lazy">
           </div>
         </a>
       </div>
@@ -457,7 +457,7 @@ footer{border-top:1px solid var(--line);padding-block:48px 56px}
     seam:{n:'Шорты от натирания',d:'Бесшовные, бёдра не трутся в жару. Не видны под платьем.',img:'gen-2',url:wbId(211938092)},
     basetank:{n:'Термомайка базовая',d:'Тонкий тёплый слой под рубашку и свитер.',img:'tank-front',url:wbId(502685453)},
     vac:{n:'Пляжная туника',d:'Лёгкая рубашка с капюшоном: на пляж, в город и на отдых у моря.',img:'tun-back',url:wbId(964180085)},
-    soon:{n:'Купальники',d:'Скоро в линии Vacation Wear.',img:null,url:null}
+    soon:{n:'Купальники',d:'Скоро в линии Vacation Wear.',img:'swim',url:null}
   };
   const RANGES=[
     {max:-16,m:'Крещенские морозы',s:'Собираем максимум тепла: термобельё, шерстяные носки и начёс.',p:['tb','socks','legg']},
@@ -497,21 +497,24 @@ footer{border-top:1px solid var(--line);padding-block:48px 56px}
       {n:'Термобельё ActiveWarm',d:'Комплект для прогулок, склона и дороги, до −32°.',img:'gen-1',id:1796630731}]},
     summer:{t:'Хиты лета',s:'Лёгкость в жару и на отдыхе.',items:[
       {n:'Шорты от натирания',d:'Главный летний продукт EasyForm. Бесшовные, бёдра не трутся в жару, не видны под платьем. Много моделей и цветов.',img:'gen-2',id:211938092,main:1},
-      {n:'Пляжные туники',d:'Лёгкие, поверх купальника, на пляж и в город.',img:'tun-back',id:964180085,v:[['Белая рубашка',964180085],['Этно узор',930290065]]},
-      {n:'Vacation Wear',d:'Одежда для отпуска. Купальники скоро.',img:'gen-7',pos:'60% 50%',url:'https://www.wildberries.ru/catalog/0/search.aspx?search=easyform'}]}
+      {n:'Туника-рубашка белая',d:'Лёгкий лён и капюшон: поверх купальника, на пляж и в город.',img:'tun-back',id:964180085},
+      {n:'Туника с этно-узором',d:'Длинная, с поясом и широкими рукавами. Для пляжа и прогулок у моря.',img:'tun-ethno',pos:'50% 10%',id:930290065},
+      {n:'Купальники',d:'Новая часть линии Vacation Wear. Скоро на WB.',img:'swim',soon:1}]}
   };
   const hitsGrid=document.getElementById('hitsGrid');
   function renderHits(s){
     const H=HITS[s];document.getElementById('hitsTitle').textContent=H.t;document.getElementById('hitsSub').textContent=H.s;
     hitsGrid.style.gridTemplateColumns=H.items.length===4?'1.5fr 1fr 1fr 1fr':'1.5fr 1fr 1fr';
-    hitsGrid.innerHTML=H.items.map(it=>{const u=it.url||wbId(it.id);
+    hitsGrid.innerHTML=H.items.map(it=>{const u=it.soon?null:(it.url||wbId(it.id));
       const oz=it.oz?`<a class="oz" href="${it.oz}" target="_blank" rel="noopener">Есть и на Ozon →</a>`:'';
       const vars=it.v?`<div class="vars">${it.v.map(([l,id])=>`<a href="${wbId(id)}" target="_blank" rel="noopener">${l}</a>`).join('')}</div>`:'';
-      return `<article class="hit${it.main?' main':''}"><a class="ph" href="${u}" target="_blank" rel="noopener" tabindex="-1"><img src="assets/img/${it.img}.webp" alt="${it.n}" loading="lazy"${it.pos?` style="object-position:${it.pos}"`:''}>${it.main?'<span class="badge">Хит №1</span>':''}</a><div class="tx"><h3><a href="${u}" target="_blank" rel="noopener">${it.n}</a></h3><p>${it.d}</p>${vars}${oz}<a class="btn" href="${u}" target="_blank" rel="noopener">Смотреть на WB</a></div></article>`}).join('');
+      const img=`<img src="assets/img/${it.img}.webp" alt="${it.n}" loading="lazy"${it.pos?` style="object-position:${it.pos}"`:''}>${it.main?'<span class="badge">Хит №1</span>':''}${it.soon?'<span class="badge">Скоро</span>':''}`;
+      if(!u)return `<article class="hit"><div class="ph">${img}</div><div class="tx"><h3>${it.n}</h3><p>${it.d}</p></div></article>`;
+      return `<article class="hit${it.main?' main':''}"><a class="ph" href="${u}" target="_blank" rel="noopener" tabindex="-1">${img}</a><div class="tx"><h3><a href="${u}" target="_blank" rel="noopener">${it.n}</a></h3><p>${it.d}</p>${vars}${oz}<a class="btn" href="${u}" target="_blank" rel="noopener">Смотреть на WB</a></div></article>`}).join('');
   }
 
   /* ---------- lookbook ---------- */
-  const LOOK=[['gen-1','Термобельё ActiveWarm'],['gen-3','Термомайка с пуш-ап'],['gen-6','Термомайка и термошорты'],['gen-4','Леггинсы с начёсом'],['socks-pack','Термоноски из шерсти'],['gen-2','Шорты от натирания'],['tun-back','Пляжная туника'],['pareo','Пляжное парео'],['gen-7','Vacation Wear'],['tb-black','Термобельё на склоне'],['leg-back','Леггинсы, высокая посадка'],['tank-front','Термомайка базовая'],['socks-coffee','Носки к капучино'],['tb-cuff','Манжеты держат тепло']];
+  const LOOK=[['gen-1','Термобельё ActiveWarm'],['gen-3','Термомайка с пуш-ап'],['gen-6','Термомайка и термошорты'],['gen-4','Леггинсы с начёсом'],['socks-pack','Термоноски из шерсти'],['gen-2','Шорты от натирания'],['tun-back','Пляжная туника'],['swim','Купальник, скоро'],['tun-ethno','Туника с этно-узором'],['pareo','Пляжное парео'],['gen-7','Vacation Wear'],['tb-black','Термобельё на склоне'],['leg-back','Леггинсы, высокая посадка'],['tank-front','Термомайка базовая'],['socks-coffee','Носки к капучино'],['tb-cuff','Манжеты держат тепло']];
   const lb=document.getElementById('lookbook');
   lb.innerHTML=LOOK.map(([f,c])=>`<figure><img src="assets/img/${f}.webp" alt="${c}" loading="lazy"><figcaption>${c}</figcaption></figure>`).join('');
   let drag=null;
