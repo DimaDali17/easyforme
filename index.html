@@ -106,6 +106,27 @@ section{padding-block:clamp(64px,9vw,120px)}
 .sec-head h2{font-size:clamp(34px,5.4vw,76px)}
 .sec-head p{max-width:42ch;margin:0;color:var(--muted)}
 
+
+/* ---------- season hits ---------- */
+.hits{display:grid;gap:16px;align-items:stretch}
+.hit{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;min-width:0;transition:background-color .8s}
+.hit .ph{position:relative;height:clamp(320px,34vw,480px);overflow:hidden;background:var(--bg2);display:block}
+.hit .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 18%;transition:transform .7s ease}
+.hit:hover .ph img{transform:scale(1.04)}
+.hit .badge{position:absolute;left:16px;top:16px;background:var(--accent);color:var(--on-accent);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:7px 12px;border-radius:999px}
+.hit .tx{padding:20px 22px 24px;display:flex;flex-direction:column;gap:10px;flex:1}
+.hit h3{font-family:var(--display);font-weight:500;font-size:clamp(19px,1.6vw,24px);line-height:1.15;letter-spacing:-.01em}
+.hit h3 a{text-decoration:none}
+.hit p{margin:0;color:var(--muted);font-size:15px;line-height:1.45}
+.vars{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.vars a{font-size:13px;font-weight:700;text-decoration:none;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--chip);transition:border-color .2s}
+.vars a:hover{border-color:var(--fg)}
+.hit .btn{margin-top:auto;align-self:flex-start;padding:12px 20px;font-size:13px}
+.hit.main h3{font-size:clamp(24px,2.4vw,34px)}
+.hit.main .btn{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+@media (max-width:960px){.hits{grid-template-columns:repeat(2,minmax(0,1fr))!important}.hit.main{grid-column:1/-1}.hit.main .ph{height:min(110vw,520px)}}
+@media (max-width:560px){.hits{grid-template-columns:1fr!important}.hit .ph{height:min(118vw,460px)}}
+
 /* ---------- weather picker ---------- */
 .picker{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr);gap:28px;align-items:stretch}
 .meter{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:32px;display:flex;flex-direction:column;gap:22px;transition:background-color .8s}
@@ -242,6 +263,7 @@ footer{border-top:1px solid var(--line);padding-block:48px 56px}
 <header class="wrap top">
   <a class="brand" href="#top" aria-label="EasyForm — на главную"><img src="assets/img/ef-logo.png" alt="" width="42" height="43"><b>EasyForm</b></a>
   <nav class="nav" aria-label="Разделы">
+    <a href="#hits">Хиты</a>
     <a href="#weather">Подбор по погоде</a>
     <a href="#collections">Коллекции</a>
     <a href="#look">Лукбук</a>
@@ -277,6 +299,16 @@ footer{border-top:1px solid var(--line);padding-block:48px 56px}
   <div class="ticker" aria-hidden="true">
     <div class="ticker-track" id="ticker"></div>
   </div>
+
+  <section id="hits">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="hitsTitle">Хиты зимы</h2>
+        <p id="hitsSub">То, за чем к нам возвращаются каждый холодный сезон.</p>
+      </div>
+      <div class="hits" id="hitsGrid"></div>
+    </div>
+  </section>
 
   <section id="weather">
     <div class="wrap">
@@ -335,15 +367,15 @@ footer{border-top:1px solid var(--line);padding-block:48px 56px}
             <ul class="chips"><li>Термобельё</li><li>Термомайки</li><li>Термошорты с начёсом</li><li>Тёплые панталоны</li><li>Леггинсы с начёсом</li><li>Носки: верблюд, ангора, кашемир</li><li>Стельки</li></ul>
           </div>
         </a>
-        <a class="col c-base" href="https://www.wildberries.ru/catalog/0/search.aspx?search=easyform%20%D1%88%D0%BE%D1%80%D1%82%D1%8B" target="_blank" rel="noopener">
+        <a class="col c-base" href="https://www.wildberries.ru/catalog/211938092/detail.aspx" target="_blank" rel="noopener">
           <img src="assets/img/gen-2.webp" alt="Модель в бесшовных шортах и топе EasyForm телесного цвета" loading="lazy">
           <div class="in">
             <span class="tag">Каждый день</span>
             <h3>База по фигуре</h3>
-            <ul class="chips"><li>Корректирующие шорты</li><li>Панталоны</li><li>Леггинсы</li><li>Базовые майки</li></ul>
+            <ul class="chips"><li>Шорты от натирания</li><li>Корректирующие шорты</li><li>Панталоны</li><li>Леггинсы</li><li>Базовые майки</li></ul>
           </div>
         </a>
-        <a class="col c-vac" href="https://www.wildberries.ru/catalog/0/search.aspx?search=easyform%20%D1%82%D1%83%D0%BD%D0%B8%D0%BA%D0%B0" target="_blank" rel="noopener">
+        <a class="col c-vac" href="https://www.wildberries.ru/catalog/964180085/detail.aspx" target="_blank" rel="noopener">
           <div class="vac-sun"></div>
           <svg class="vac-waves" viewBox="0 0 1200 200" preserveAspectRatio="none" aria-hidden="true"><path d="M-300 90 Q-150 40 0 90 T300 90 T600 90 T900 90 T1200 90 T1500 90 V200 H-300Z" fill="#FFF3E6"/><path d="M-300 130 Q-100 90 100 130 T500 130 T900 130 T1300 130 T1700 130 V200 H-300Z" fill="#FFFFFF"/></svg>
           <div class="in">
@@ -415,28 +447,28 @@ footer{border-top:1px solid var(--line);padding-block:48px 56px}
   /* ---------- products ---------- */
   const P={
     tb:{n:'Термобельё ActiveWarm',d:'Лонгслив и леггинсы, эффективно до −32°. Для прогулок, склона и дороги.',img:'tb-pose',url:wbId(1796630731)},
-    socks:{n:'Термоноски из шерсти',d:'Верблюжья шерсть, ангора, кашемир. Ноги в тепле даже в мороз.',img:'socks-coffee',url:wbq('термоноски')},
-    legg:{n:'Леггинсы с начёсом',d:'Мягкий начёс внутри, высокая посадка, до −20°.',img:'legg-fleece',url:wbq('леггинсы утепленные')},
-    tank:{n:'Термомайка с пуш-ап',d:'Тонкая, под пиджак и пальто. Держит тепло до −15°.',img:'tank-hero',url:wbId(502685453)},
+    socks:{n:'Термоноски из верблюжьей шерсти',d:'Ноги в тепле даже в сильный мороз. Есть кашемир и ангора.',img:'socks-pack',url:wbId(46158541)},
+    legg:{n:'Леггинсы с начёсом',d:'Мягкий начёс внутри, высокая посадка, до −20°.',img:'gen-4',url:wbId(95551415)},
+    tank:{n:'Термомайка с пуш-ап',d:'Тонкая, под пиджак и пальто. Держит тепло до −15°.',img:'tank-hero',url:wbId(175099868)},
     shorts:{n:'Термошорты с начёсом',d:'Под юбку и платье, когда на улице холодно.',img:'panty-black',url:wbId(474514093)},
-    pair:{n:'Термомайка + термошорты',d:'Идеальная пара на межсезонье: незаметно под одеждой.',img:'pair',url:wbq('термомайка')},
-    seam:{n:'Бесшовные шорты',d:'Корректируют и не видны под платьем и брюками.',img:'gen-2',url:wbq('корректирующие шорты')},
-    leg:{n:'Леггинсы на каждый день',d:'Высокая посадка, садятся по фигуре и не сползают.',img:'leg-front',url:wbq('леггинсы')},
-    basetank:{n:'Базовая майка',d:'Один топ на десятки образов: в брюки или навыпуск.',img:'tank-front',url:wbq('майка')},
-    vac:{n:'Пляжная туника',d:'Лёгкая рубашка с капюшоном: на пляж, в город и на отдых у моря.',img:'tun-back',url:wbq('туника')}
+    pair:{n:'Термомайка + термошорты',d:'Идеальная пара на межсезонье: незаметно под одеждой.',img:'gen-6',url:wbId(474514093)},
+    seam:{n:'Шорты от натирания',d:'Бесшовные, бёдра не трутся в жару. Не видны под платьем.',img:'gen-2',url:wbId(211938092)},
+    basetank:{n:'Термомайка базовая',d:'Тонкий тёплый слой под рубашку и свитер.',img:'tank-front',url:wbId(502685453)},
+    vac:{n:'Пляжная туника',d:'Лёгкая рубашка с капюшоном: на пляж, в город и на отдых у моря.',img:'tun-back',url:wbId(964180085)},
+    soon:{n:'Купальники',d:'Скоро в линии Vacation Wear.',img:null,url:null}
   };
   const RANGES=[
     {max:-16,m:'Крещенские морозы',s:'Собираем максимум тепла: термобельё, шерстяные носки и начёс.',p:['tb','socks','legg']},
     {max:-1, m:'Морозно',s:'Тепло под обычной одеждой, без лишних свитеров.',p:['legg','tank','shorts']},
-    {max:12, m:'Межсезонье',s:'Сыро и ветрено: один тонкий тёплый слой спасает день.',p:['pair','tank','socks']},
-    {max:23, m:'Тепло',s:'Лёгкая база по фигуре, которая не видна под одеждой.',p:['seam','leg','basetank']},
-    {max:99, m:'Жара и отпуск',s:'Лёгкость, море и солнце: туника поверх купальника и база, которая не видна под платьем.',p:['vac','seam','basetank']}
+    {max:12, m:'Межсезонье',s:'Сыро и ветрено: один тонкий тёплый слой спасает день.',p:['pair','basetank','socks']},
+    {max:23, m:'Тепло',s:'Лёгкая база по фигуре, которая не видна под одеждой.',p:['seam','vac','basetank']},
+    {max:99, m:'Жара и отпуск',s:'Лёгкость, море и солнце: туника поверх купальника и шорты, с которыми бёдра не трутся.',p:['seam','vac','soon']}
   ];
   const recs=document.getElementById('recs'),deg=document.getElementById('deg'),mood=document.getElementById('mood'),moodSub=document.getElementById('moodSub'),temp=document.getElementById('temp');
   let lastBand=-1;
   function card(k){
     const p=P[k];
-    const POS={'panty-black':'50% 60%','legg-fleece':'50% 0%','socks-coffee':'50% 60%'};
+    const POS={'panty-black':'50% 60%','legg-fleece':'50% 0%','socks-coffee':'50% 60%','socks-pack':'40% 50%'};
     const ph=p.img?`<div class="ph"><img src="assets/img/${p.img}.webp" alt="${p.n}" loading="lazy"${POS[p.img]?` style="object-position:${POS[p.img]}"`:''}></div>`:`<div class="ph soon"><div class="soon-sun"></div></div>`;
     const go=p.url?'<span class="go">Смотреть на WB →</span>':'<span class="go">Скоро</span>';
     const inner=`${ph}<div class="tx"><h3>${p.n}</h3><p>${p.d}</p>${go}</div>`;
@@ -453,8 +485,30 @@ footer{border-top:1px solid var(--line);padding-block:48px 56px}
   temp.addEventListener('input',e=>setTemp(+e.target.value));
   document.querySelectorAll('.presets button').forEach(b=>b.addEventListener('click',()=>setTemp(+b.dataset.t)));
 
+
+  /* ---------- season hits ---------- */
+  const HITS={
+    winter:{t:'Хиты зимы',s:'То, за чем к нам возвращаются каждый холодный сезон.',items:[
+      {n:'Термошорты с начёсом',d:'Главный зимний продукт EasyForm. Флисовый начёс внутри, тепло под юбкой и платьем.',img:'gen-6',id:474514093,main:1},
+      {n:'Термомайка',d:'Тонкий тёплый слой под пиджак и пальто.',img:'gen-3',id:175099868,v:[['С пуш-ап',175099868],['Базовая',502685453]]},
+      {n:'Термоноски',d:'Натуральная шерсть, тепло даже в сильный мороз.',img:'socks-pack',pos:'40% 50%',id:46158541,v:[['Верблюд',46158541],['Кашемир',186730710],['Ангора',252685981],['Спортивные',270200347]]},
+      {n:'Термобельё ActiveWarm',d:'Комплект для прогулок, склона и дороги, до −32°.',img:'gen-1',id:1796630731}]},
+    summer:{t:'Хиты лета',s:'Лёгкость в жару и на отдыхе.',items:[
+      {n:'Шорты от натирания',d:'Главный летний продукт EasyForm. Бесшовные, бёдра не трутся в жару, не видны под платьем. Много моделей и цветов.',img:'gen-2',id:211938092,main:1},
+      {n:'Пляжные туники',d:'Лёгкие, поверх купальника, на пляж и в город.',img:'tun-back',id:964180085,v:[['Белая рубашка',964180085],['Этно узор',930290065]]},
+      {n:'Vacation Wear',d:'Одежда для отпуска. Купальники скоро.',img:'gen-7',pos:'60% 50%',url:'https://www.wildberries.ru/catalog/0/search.aspx?search=easyform'}]}
+  };
+  const hitsGrid=document.getElementById('hitsGrid');
+  function renderHits(s){
+    const H=HITS[s];document.getElementById('hitsTitle').textContent=H.t;document.getElementById('hitsSub').textContent=H.s;
+    hitsGrid.style.gridTemplateColumns=H.items.length===4?'1.5fr 1fr 1fr 1fr':'1.5fr 1fr 1fr';
+    hitsGrid.innerHTML=H.items.map(it=>{const u=it.url||wbId(it.id);
+      const vars=it.v?`<div class="vars">${it.v.map(([l,id])=>`<a href="${wbId(id)}" target="_blank" rel="noopener">${l}</a>`).join('')}</div>`:'';
+      return `<article class="hit${it.main?' main':''}"><a class="ph" href="${u}" target="_blank" rel="noopener" tabindex="-1"><img src="assets/img/${it.img}.webp" alt="${it.n}" loading="lazy"${it.pos?` style="object-position:${it.pos}"`:''}>${it.main?'<span class="badge">Хит №1</span>':''}</a><div class="tx"><h3><a href="${u}" target="_blank" rel="noopener">${it.n}</a></h3><p>${it.d}</p>${vars}<a class="btn" href="${u}" target="_blank" rel="noopener">Смотреть на WB</a></div></article>`}).join('');
+  }
+
   /* ---------- lookbook ---------- */
-  const LOOK=[['gen-1','Термобельё ActiveWarm'],['gen-2','Бесшовная база'],['tun-back','Пляжная туника'],['gen-3','Термомайка под пальто'],['leg-back','Леггинсы, высокая посадка'],['socks-coffee','Носки из шерсти'],['tb-black','Термобельё на склоне'],['pair','Термомайка + термошорты'],['legg-fleece','Леггинсы с начёсом'],['tank-front','Базовая майка'],['tb-cuff','Манжеты держат тепло'],['leg-side','Леггинсы на каждый день'],['tb-detail','Посадка по фигуре'],['panty-black','Шорты с флисовым начёсом']];
+  const LOOK=[['gen-1','Термобельё ActiveWarm'],['gen-3','Термомайка с пуш-ап'],['gen-6','Термомайка и термошорты'],['gen-4','Леггинсы с начёсом'],['socks-pack','Термоноски из шерсти'],['gen-2','Шорты от натирания'],['tun-back','Пляжная туника'],['gen-7','Vacation Wear'],['tb-black','Термобельё на склоне'],['leg-back','Леггинсы, высокая посадка'],['tank-front','Термомайка базовая'],['socks-coffee','Носки к капучино'],['tb-cuff','Манжеты держат тепло']];
   const lb=document.getElementById('lookbook');
   lb.innerHTML=LOOK.map(([f,c])=>`<figure><img src="assets/img/${f}.webp" alt="${c}" loading="lazy"><figcaption>${c}</figcaption></figure>`).join('');
   let drag=null;
@@ -479,7 +533,7 @@ footer{border-top:1px solid var(--line);padding-block:48px 56px}
     document.querySelectorAll('.season button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===s));
     giant.innerHTML=`<span class="w">${COPY[s].w}</span>`;
     lead.innerHTML=COPY[s].lead;sticker.innerHTML='<div>'+COPY[s].st+'</div>';
-    fillTicker(s);setTemp(COPY[s].t);sky.mode(s);logo3d.season(s);
+    fillTicker(s);renderHits(s);setTemp(COPY[s].t);sky.mode(s);logo3d.season(s);
     if(!reduce&&giant.animate)giant.animate([{opacity:0,transform:'translateY(18px)'},{opacity:1,transform:'none'}],{duration:600,easing:'cubic-bezier(.2,.7,.2,1)'});
     if(save){try{localStorage.setItem('ef-season',s)}catch(e){}}
   }
